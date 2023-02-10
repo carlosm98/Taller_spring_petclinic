@@ -28,6 +28,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.samples.petclinic.vet.SpecialityRepository;
 import org.springframework.samples.petclinic.vet.Specialty;
 import org.springframework.samples.petclinic.vet.Vet;
+import org.springframework.samples.petclinic.bill.Bill;
+import org.springframework.samples.petclinic.bill.BillService;
 import org.springframework.samples.petclinic.owner.Pet;
 import org.springframework.samples.petclinic.owner.PetRepository;
 import org.springframework.samples.petclinic.owner.Visit;
@@ -46,6 +48,7 @@ import org.springframework.data.domain.Pageable;
  * @author Dave Syer
  *
  */
+
 @SpringBootApplication
 @ImportRuntimeHints(PetClinicRuntimeHints.class)
 public class PetClinicApplication {
@@ -57,6 +60,10 @@ private static final Logger log = LoggerFactory.getLogger(PetClinicApplication.c
 	private VisitRepository visitRepository;
 	@Autowired
 	private PetRepository petRepository;
+	@Autowired
+	private BillService billService;
+
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetClinicApplication.class, args);
@@ -167,6 +174,43 @@ private static final Logger log = LoggerFactory.getLogger(PetClinicApplication.c
 			Page<Pet> page = visitRepository.findAll(sortedByDate);
 			System.out.println(page.toList());
 
+
+			log.info("*****************************************************");
+			log.info("Tarea 3");
+			log.info("*****************************************************");
+
+			/*
+			 * Facturas
+			 * 
+			 * - Listar las facturas ordenadas por fecha de pago
+			 * - Creación de una factura nueva,
+			 * - Listamos las facturas
+			 * - Eliminamos la factura creada
+			 */
+			
+			System.out.println("Listado de facturas ordenadas por fecha de pago");
+			List<Bill> listBill = billService.findAllOrderByPaymentDate();
+			System.out.println(listBill);
+			
+			System.out.println("Creamos una nueva factura");
+			Visit visit = visitRepository.findById(4l).get();
+			
+			Bill bill = new Bill();
+			bill.setMoney(200);
+			bill.setVisit(visit);
+			bill.setPaymentDate(LocalDate.of(2023, 1, 6));
+			billService.saveBill(bill);
+			
+			System.out.println("Volvemos a listar las facturas");
+			listBill = billService.findAllOrderByPaymentDate();
+			System.out.println(listBill);
+			
+			System.out.println("Eliminamos la factura creada");
+			billService.delete(bill.getId());
+
+			System.out.println("Volvemos a listar las facturas");
+			listBill = billService.findAllOrderByPaymentDate();
+			System.out.println(listBill);
 		};
 	}
 }
