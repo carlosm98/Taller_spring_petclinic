@@ -53,3 +53,12 @@ CREATE TABLE IF NOT EXISTS visits (
   description VARCHAR(255),
   FOREIGN KEY (pet_id) REFERENCES pets(id)
 ) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS bill (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  money double(7,2) unsigned NOT NULL,
+  payment_date date NOT NULL,
+  visit_id INT unsigned NOT NULL,
+  UNIQUE KEY visit_id (visit_id),
+  CONSTRAINT bill_ibfk_2 FOREIGN KEY (visit_id) REFERENCES visits (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

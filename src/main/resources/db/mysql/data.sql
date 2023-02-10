@@ -51,3 +51,8 @@ INSERT IGNORE INTO visits VALUES (1, 7, '2010-03-04', 'rabies shot');
 INSERT IGNORE INTO visits VALUES (2, 8, '2011-03-04', 'rabies shot');
 INSERT IGNORE INTO visits VALUES (3, 8, '2009-06-04', 'neutered');
 INSERT IGNORE INTO visits VALUES (4, 7, '2008-09-04', 'spayed');
+
+INSERT IGNORE INTO bill (id, money, payment_date, visit_id) VALUES (1, 150.50, '2023-02-09', 1);
+INSERT IGNORE INTO bill (id, money, payment_date, visit_id) VALUES (2, 50.00, '2023-01-09', 3);
+INSERT IGNORE INTO bill (id, money, payment_date, visit_id) VALUES (3, 50.00, '2023-01-02', 2);
+
